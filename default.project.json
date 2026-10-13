@@ -1,0 +1,34 @@
+{
+	"name": "MonsterHunting",
+	"tree": {
+		"$className": "DataModel",
+
+		"ReplicatedStorage": {
+			"Shared": {
+				"$path": "src/shared"
+			}
+		},
+
+		"ServerScriptService": {
+			"Bootstrap": {
+				"$path": "src/server/Bootstrap.server.luau"
+			},
+			"Services": {
+				"$path": "src/server/Services"
+			}
+		},
+
+		"ServerStorage": {
+			"Tests": {
+				"$path": "tests"
+			}
+		},
+
+		"StarterPlayer": {
+			"StarterPlayerScripts": {
+				"$className": "StarterPlayerScripts",
+				"$path": "src/client"
+			}
+		}
+	}
+}

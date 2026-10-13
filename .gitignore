@@ -1,0 +1,20 @@
+# Roblox place files are build output; the source of truth is this repo.
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
+/build/
+
+# Rojo / tooling
+sourcemap.json
+Packages/
+ServerPackages/
+
+# Node tooling (tools/verify)
+node_modules/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

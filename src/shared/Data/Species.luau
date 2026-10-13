@@ -1,0 +1,436 @@
+--!strict
+--[[
+	Data/Species.luau
+
+	THE content file for monsters. Adding a monster = appending one record here
+	(plus any new moves/abilities it references). No logic anywhere changes:
+	the registry indexes it, the validator checks it, encounters/battles/UI read it.
+
+	MVP roster: 15 original monsters in 7 lines (3 starters-style lines, a
+	trade-evolution line, an item-evolution line, a time-of-day line, 1 single).
+	When this file passes ~50 records, split it into a folder of one module per
+	species behind the same registry; consumers never see the difference.
+
+	assets: 0 = art not assigned yet. The validator reports these as a single
+	aggregated warning so the project runs before models/icons exist.
+
+	learnset rules: ascending by level, no duplicate moves, must include a
+	level-1 entry. A monster's starting moveset is the last four entries at or
+	below its level (MonsterFactory).
+]]
+
+local Types = require(script.Parent.Parent.Types)
+
+local species: { Types.Species } = {
+	-- Ember line ----------------------------------------------------------------
+	{
+		id = "embercub",
+		dexNumber = 1,
+		name = "Embercub",
+		description = "A curious cub whose fur smolders when it is excited.",
+		types = { "flame" },
+		baseStats = { hp = 45, attack = 55, defense = 40, spAttack = 50, spDefense = 40, speed = 55 },
+		abilityPool = {
+			{ abilityId = "ember_heart", weight = 80 },
+			{ abilityId = "fierce_aura", weight = 20 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "rally" },
+			{ level = 5, moveId = "cinder_bite" },
+			{ level = 9, moveId = "quick_strike" },
+			{ level = 14, moveId = "flare_burst" },
+			{ level = 22, moveId = "reckless_charge" },
+		},
+		evolutions = { { toSpeciesId = "emberprowl", trigger = "level", minLevel = 16 } :: Types.EvolutionRule },
+		catchRate = 190,
+		growthCurveId = "medium_slow",
+		baseXpYield = 62,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+	{
+		id = "emberprowl",
+		dexNumber = 2,
+		name = "Emberprowl",
+		description = "A lean hunter that leaves scorched pawprints.",
+		types = { "flame" },
+		baseStats = { hp = 65, attack = 80, defense = 58, spAttack = 72, spDefense = 58, speed = 77 },
+		abilityPool = {
+			{ abilityId = "ember_heart", weight = 80 },
+			{ abilityId = "fierce_aura", weight = 20 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "rally" },
+			{ level = 5, moveId = "cinder_bite" },
+			{ level = 9, moveId = "quick_strike" },
+			{ level = 14, moveId = "flare_burst" },
+			{ level = 22, moveId = "reckless_charge" },
+			{ level = 28, moveId = "shade_claw" },
+		},
+		evolutions = { { toSpeciesId = "infernomaw", trigger = "level", minLevel = 36 } :: Types.EvolutionRule },
+		catchRate = 120,
+		growthCurveId = "medium_slow",
+		baseXpYield = 142,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+	{
+		id = "infernomaw",
+		dexNumber = 3,
+		name = "Infernomaw",
+		description = "A volcanic beast with a furnace in its throat.",
+		types = { "flame", "stone" },
+		baseStats = { hp = 85, attack = 110, defense = 80, spAttack = 100, spDefense = 75, speed = 90 },
+		abilityPool = {
+			{ abilityId = "ember_heart", weight = 70 },
+			{ abilityId = "fierce_aura", weight = 30 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "rally" },
+			{ level = 5, moveId = "cinder_bite" },
+			{ level = 9, moveId = "quick_strike" },
+			{ level = 14, moveId = "flare_burst" },
+			{ level = 22, moveId = "reckless_charge" },
+			{ level = 28, moveId = "shade_claw" },
+			{ level = 38, moveId = "boulder_drop" },
+		},
+		catchRate = 45,
+		growthCurveId = "medium_slow",
+		baseXpYield = 240,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+
+	-- Tide line -----------------------------------------------------------------
+	{
+		id = "ripplet",
+		dexNumber = 4,
+		name = "Ripplet",
+		description = "A playful pond dweller that leaves rings wherever it goes.",
+		types = { "tide" },
+		baseStats = { hp = 50, attack = 45, defense = 50, spAttack = 60, spDefense = 55, speed = 40 },
+		abilityPool = {
+			{ abilityId = "tide_veil", weight = 80 },
+			{ abilityId = "steady_aim", weight = 20 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "harden" },
+			{ level = 5, moveId = "splash_jet" },
+			{ level = 9, moveId = "quick_strike" },
+			{ level = 15, moveId = "mend" },
+			{ level = 20, moveId = "torrent_crash" },
+		},
+		evolutions = { { toSpeciesId = "torrentail", trigger = "level", minLevel = 18 } :: Types.EvolutionRule },
+		catchRate = 200,
+		growthCurveId = "medium_slow",
+		baseXpYield = 64,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+	{
+		id = "torrentail",
+		dexNumber = 5,
+		name = "Torrentail",
+		description = "Its powerful tail can drive a river against the current.",
+		types = { "tide" },
+		baseStats = { hp = 80, attack = 70, defense = 80, spAttack = 95, spDefense = 85, speed = 65 },
+		abilityPool = {
+			{ abilityId = "tide_veil", weight = 80 },
+			{ abilityId = "steady_aim", weight = 20 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "harden" },
+			{ level = 5, moveId = "splash_jet" },
+			{ level = 9, moveId = "quick_strike" },
+			{ level = 15, moveId = "mend" },
+			{ level = 20, moveId = "torrent_crash" },
+			{ level = 26, moveId = "night_drain" },
+		},
+		catchRate = 75,
+		growthCurveId = "medium_slow",
+		baseXpYield = 175,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+
+	-- Sprout line ---------------------------------------------------------------
+	{
+		id = "sproutle",
+		dexNumber = 6,
+		name = "Sproutle",
+		description = "A leafy little creature that naps in sunny clearings.",
+		types = { "verdant" },
+		baseStats = { hp = 48, attack = 48, defense = 50, spAttack = 55, spDefense = 50, speed = 45 },
+		abilityPool = {
+			{ abilityId = "leaf_mantle", weight = 80 },
+			{ abilityId = "thick_hide", weight = 20 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "harden" },
+			{ level = 4, moveId = "vine_lash" },
+			{ level = 8, moveId = "spore_cloud" },
+			{ level = 13, moveId = "mend" },
+			{ level = 18, moveId = "thorn_barrage" },
+		},
+		evolutions = { { toSpeciesId = "thornback", trigger = "level", minLevel = 16 } :: Types.EvolutionRule },
+		catchRate = 200,
+		growthCurveId = "medium_slow",
+		baseXpYield = 60,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+	{
+		id = "thornback",
+		dexNumber = 7,
+		name = "Thornback",
+		description = "Bristling thorns cover its back like armor.",
+		types = { "verdant" },
+		baseStats = { hp = 68, attack = 72, defense = 72, spAttack = 70, spDefense = 66, speed = 52 },
+		abilityPool = {
+			{ abilityId = "leaf_mantle", weight = 80 },
+			{ abilityId = "thick_hide", weight = 20 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "harden" },
+			{ level = 4, moveId = "vine_lash" },
+			{ level = 8, moveId = "spore_cloud" },
+			{ level = 13, moveId = "mend" },
+			{ level = 18, moveId = "thorn_barrage" },
+			{ level = 24, moveId = "reckless_charge" },
+		},
+		evolutions = { { toSpeciesId = "grovewarden", trigger = "level", minLevel = 34 } :: Types.EvolutionRule },
+		catchRate = 120,
+		growthCurveId = "medium_slow",
+		baseXpYield = 140,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+	{
+		id = "grovewarden",
+		dexNumber = 8,
+		name = "Grovewarden",
+		description = "An ancient guardian whose back has become a living grove.",
+		types = { "verdant", "stone" },
+		baseStats = { hp = 95, attack = 95, defense = 105, spAttack = 80, spDefense = 100, speed = 50 },
+		abilityPool = {
+			{ abilityId = "leaf_mantle", weight = 60 },
+			{ abilityId = "thick_hide", weight = 40 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "harden" },
+			{ level = 4, moveId = "vine_lash" },
+			{ level = 8, moveId = "spore_cloud" },
+			{ level = 13, moveId = "mend" },
+			{ level = 18, moveId = "thorn_barrage" },
+			{ level = 24, moveId = "reckless_charge" },
+			{ level = 36, moveId = "boulder_drop" },
+		},
+		catchRate = 45,
+		growthCurveId = "medium_slow",
+		baseXpYield = 236,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+
+	-- Volt line (item evolution) -----------------------------------------------
+	{
+		id = "zapling",
+		dexNumber = 9,
+		name = "Zapling",
+		description = "Static crackles through its fur whenever it is startled.",
+		types = { "volt" },
+		baseStats = { hp = 40, attack = 45, defense = 35, spAttack = 60, spDefense = 40, speed = 70 },
+		abilityPool = {
+			{ abilityId = "sprinter", weight = 70 },
+			{ abilityId = "steady_aim", weight = 30 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "quicken" },
+			{ level = 4, moveId = "static_jolt" },
+			{ level = 8, moveId = "spark_net" },
+			{ level = 13, moveId = "quick_strike" },
+			{ level = 19, moveId = "thunder_fang" },
+		},
+		evolutions = { { toSpeciesId = "voltstag", trigger = "item", itemId = "volt_shard" } :: Types.EvolutionRule },
+		catchRate = 190,
+		growthCurveId = "medium_fast",
+		baseXpYield = 70,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+	{
+		id = "voltstag",
+		dexNumber = 10,
+		name = "Voltstag",
+		description = "Lightning arcs between the antlers of this graceful runner.",
+		types = { "volt" },
+		baseStats = { hp = 65, attack = 75, defense = 60, spAttack = 105, spDefense = 70, speed = 105 },
+		abilityPool = {
+			{ abilityId = "sprinter", weight = 70 },
+			{ abilityId = "steady_aim", weight = 30 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "quicken" },
+			{ level = 4, moveId = "static_jolt" },
+			{ level = 8, moveId = "spark_net" },
+			{ level = 13, moveId = "quick_strike" },
+			{ level = 19, moveId = "thunder_fang" },
+			{ level = 27, moveId = "cutting_wind" },
+		},
+		catchRate = 60,
+		growthCurveId = "medium_fast",
+		baseXpYield = 190,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+
+	-- Stone line (trade evolution) ----------------------------------------------
+	{
+		id = "pebblit",
+		dexNumber = 11,
+		name = "Pebblit",
+		description = "Mistaken for a rock until it blinks.",
+		types = { "stone" },
+		baseStats = { hp = 50, attack = 60, defense = 70, spAttack = 30, spDefense = 40, speed = 30 },
+		abilityPool = {
+			{ abilityId = "thick_hide", weight = 70 },
+			{ abilityId = "grounded", weight = 30 },
+		},
+		learnset = {
+			{ level = 1, moveId = "pebble_toss" },
+			{ level = 1, moveId = "harden" },
+			{ level = 6, moveId = "bump" },
+			{ level = 11, moveId = "rally" },
+			{ level = 15, moveId = "boulder_drop" },
+			{ level = 21, moveId = "mend" },
+		},
+		evolutions = { { toSpeciesId = "bouldrake", trigger = "trade" } :: Types.EvolutionRule },
+		catchRate = 210,
+		growthCurveId = "slow",
+		baseXpYield = 56,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+	{
+		id = "bouldrake",
+		dexNumber = 12,
+		name = "Bouldrake",
+		description = "A slow, mountainous drake that evolves through the bonds of trade.",
+		types = { "stone" },
+		baseStats = { hp = 80, attack = 105, defense = 110, spAttack = 45, spDefense = 65, speed = 45 },
+		abilityPool = {
+			{ abilityId = "thick_hide", weight = 70 },
+			{ abilityId = "grounded", weight = 30 },
+		},
+		learnset = {
+			{ level = 1, moveId = "pebble_toss" },
+			{ level = 1, moveId = "harden" },
+			{ level = 6, moveId = "bump" },
+			{ level = 11, moveId = "rally" },
+			{ level = 15, moveId = "boulder_drop" },
+			{ level = 21, moveId = "mend" },
+			{ level = 30, moveId = "thunder_fang" },
+		},
+		catchRate = 60,
+		growthCurveId = "slow",
+		baseXpYield = 195,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+
+	-- Gale line (time-of-day evolution) -----------------------------------------
+	{
+		id = "gustwing",
+		dexNumber = 13,
+		name = "Gustwing",
+		description = "A small bird that rides every breeze it finds.",
+		types = { "gale" },
+		baseStats = { hp = 42, attack = 52, defense = 42, spAttack = 50, spDefense = 42, speed = 66 },
+		abilityPool = {
+			{ abilityId = "sprinter", weight = 60 },
+			{ abilityId = "steady_aim", weight = 40 },
+		},
+		learnset = {
+			{ level = 1, moveId = "gust_peck" },
+			{ level = 1, moveId = "quicken" },
+			{ level = 5, moveId = "quick_strike" },
+			{ level = 10, moveId = "cutting_wind" },
+			{ level = 15, moveId = "dread_gaze" },
+			{ level = 20, moveId = "shade_claw" },
+		},
+		evolutions = {
+			{ toSpeciesId = "duskwing", trigger = "condition", minLevel = 20, timeOfDay = "night" } :: Types.EvolutionRule,
+		},
+		catchRate = 200,
+		growthCurveId = "fast",
+		baseXpYield = 58,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+	{
+		id = "duskwing",
+		dexNumber = 14,
+		name = "Duskwing",
+		description = "Having learned the night sky, it glides without a sound.",
+		types = { "gale", "umbra" },
+		baseStats = { hp = 68, attack = 80, defense = 62, spAttack = 88, spDefense = 62, speed = 100 },
+		abilityPool = {
+			{ abilityId = "sprinter", weight = 50 },
+			{ abilityId = "shadow_cloak", weight = 50 },
+		},
+		learnset = {
+			{ level = 1, moveId = "gust_peck" },
+			{ level = 1, moveId = "quicken" },
+			{ level = 5, moveId = "quick_strike" },
+			{ level = 10, moveId = "cutting_wind" },
+			{ level = 15, moveId = "dread_gaze" },
+			{ level = 20, moveId = "shade_claw" },
+			{ level = 26, moveId = "night_drain" },
+		},
+		catchRate = 70,
+		growthCurveId = "fast",
+		baseXpYield = 170,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+
+	-- Single-stage ----------------------------------------------------------------
+	{
+		id = "snuffle",
+		dexNumber = 15,
+		name = "Snuffle",
+		description = "A round, sniffing creature found almost everywhere.",
+		types = { "neutral" },
+		baseStats = { hp = 70, attack = 65, defense = 55, spAttack = 45, spDefense = 55, speed = 50 },
+		abilityPool = {
+			{ abilityId = "fierce_aura", weight = 50 },
+			{ abilityId = "thick_hide", weight = 50 },
+		},
+		learnset = {
+			{ level = 1, moveId = "bump" },
+			{ level = 1, moveId = "harden" },
+			{ level = 5, moveId = "quick_strike" },
+			{ level = 10, moveId = "hard_slam" },
+			{ level = 16, moveId = "rally" },
+			{ level = 20, moveId = "mend" },
+			{ level = 25, moveId = "reckless_charge" },
+		},
+		catchRate = 255,
+		growthCurveId = "medium_fast",
+		baseXpYield = 70,
+		tradeable = true,
+		assets = { modelAssetId = 0, iconAssetId = 0 },
+	},
+}
+
+return species
