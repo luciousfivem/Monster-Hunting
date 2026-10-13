@@ -1,0 +1,17 @@
+{
+	"name": "monster-hunting-verify",
+	"private": true,
+	"version": "0.0.0",
+	"description": "Optional offline verification for the pure-Luau modules: runs tests/ in a Luau VM, type-checks with Luau's analyzer, and smoke-tests the server bootstrap against a mock. Not part of the game.",
+	"type": "module",
+	"scripts": {
+		"test": "node run-tests.mjs",
+		"typecheck": "node typecheck.mjs",
+		"smoke": "node server-smoke.mjs",
+		"verify": "node run-tests.mjs && node typecheck.mjs && node server-smoke.mjs"
+	},
+	"devDependencies": {
+		"@luau2ts/analyzer": "0.1.0",
+		"luau-web": "1.5.1"
+	}
+}
